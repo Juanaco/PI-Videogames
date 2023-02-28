@@ -21,7 +21,7 @@ const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {//si cambio force por "alter" no se dropea más la BDD y me quedan los juegos guardados
+conn.sync({ alter: true }).then(() => {//si cambio force por "alter" no se dropea más la BDD y me quedan los juegos guardados
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });

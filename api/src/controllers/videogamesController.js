@@ -1,18 +1,40 @@
 const { Videogame } = require("../db");
 const axios = require("axios");
+const { API_KEY} = process.env;
 
 
 const createVideogame = async (name, description, platforms, image, releaseDate, rating) =>
     await Videogame.create({ name, description, platforms, image, releaseDate, rating});
 
 const getVideogameById = async (id, source) =>{
-    const videogame = 
-        source === "api" 
-            ? (await axios.get(`https://api.rawg.io/api/games/${id}?key=58f5f3ddba1b442f8d24d98fcfeb532f`)).data
-            // (await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)).data
-            : await Videogame.findByPk(id);
+    
+if (source==="api"){ 
+    const result= (await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`)).data
 
-    return videogame;
+       
+        const filteredPlatforms = (arr)=>{
+            arr.map((elem) =>{
+                return{
+                    platform: elem.platform,
+                }
+                })
+        }
+        let plataform = filteredPlatforms(result)
+        const searchedApi = {
+            name: result.name,
+            platforms: plataform,
+            released: result.released,
+            image: result.background_image,
+            description: result.description,
+            rating: result.rating,
+            genres: result.genres
+        };
+    return searchedApi;
+};
+if(source==="bdd"){
+    return await Videogame.findByPk(id);
+}
+    
 };    
 
 const cleanArray = (arr) =>
@@ -20,12 +42,12 @@ const cleanArray = (arr) =>
         return{
             id: elem.id,
             name: elem.name,
-            description: elem.description, //¡¡¡¡¡¡¡¡¡¡¡¡¡esta ruta no tiene description!!!! POR ID SI
+            description: elem.description, 
             platforms: elem.platforms.map((plat) =>{
                 return {
                     id: plat.platform.id,
                     name: plat.platform.name};
-                }), //*****tengo que filtrar las plataformas****
+                }), 
             image: elem.background_image,
             releaseDate: elem.released,
             rating: elem.rating,
@@ -38,11 +60,11 @@ const getAllVideogames = async () =>{
     const databaseGames = await Videogame.findAll();
     // buscar en API
     const apiGamesRaw= (await axios.get("https://api.rawg.io/api/games?key=58f5f3ddba1b442f8d24d98fcfeb532f")).data.results;
-    //este tendría que ser apiGamesRaw
+   
        
     const apiGames = cleanArray(apiGamesRaw);
-    console.log(cleanArray(apiGamesRaw))
-    return [...databaseGames, ...apiGames];
+   
+    return [apiGames];
     // return databaseGames;
 };
 

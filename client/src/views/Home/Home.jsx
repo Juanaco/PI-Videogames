@@ -1,16 +1,15 @@
 import CardsContainer from "../../components/CardsContainer/CardsContainer";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getGames } from "../../redux/actions";
+import { getGames } from "../../redux/actions/getAllGames";
 
-// useEffect() para cuando se monta el componente HOME
-// para hacer el dispatch useDispatch()
+
 const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getGames());
-  }, [dispatch]);//array de dependencias?[dispatch]
+  }, [dispatch]);
   return (
     <>
       <h1>Home</h1>

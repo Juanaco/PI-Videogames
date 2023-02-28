@@ -1,9 +1,11 @@
 require('dotenv').config();
+
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
+const { default: axios } = require('axios');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, API_KEY
 } = process.env;
 
 
@@ -41,7 +43,22 @@ const { Videogame, Genre} = sequelize.models;
 Videogame.belongsToMany(Genre, {through: "game_genre"});
 Genre.belongsToMany(Videogame, {through: "game_genre"});
 
+
+
+//guardar generos en la BDD
+const storeGenres = async () => { 
+  const apiGenres = (await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`)).data.results;
+  const genres = apiGenres.map(g => g.name);
+
+  genres.forEach((g) => {
+      Genre.findOrCreate({
+           where: {name: g}
+      });
+    });
+  
+  }     
+storeGenres();
 module.exports = {
-  ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
+  ...sequelize.models, 
+  conn: sequelize,     
 };

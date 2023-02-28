@@ -3,14 +3,14 @@ import style from "./Card.module.css"
 
 const Card = (props) => {
   return (
-    <div className={style.card}>
-      <p><Link to="/detail">Name:{props.name}</Link></p>
-      <p>{props.image}</p>
-      {/*********hay que ver como mostrar las plataformas****/}
+    <Link className={style.a} to="/detail"><div className={style.card}>
+      <p>{props.name}</p>
+      <img src={props.image} alt=""></img>
+      
       <p>Platforms:{props.platforms}</p>
       <p>Release Date:{props.releaseDate}</p>
       <p>Rating:{props.rating}</p>
-    </div>
+    </div></Link>
   );
 };
 

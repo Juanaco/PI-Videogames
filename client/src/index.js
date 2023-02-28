@@ -15,7 +15,7 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-// ?? que es  <React.StrictMode>
+
 // import reportWebVitals from './reportWebVitals';
 
 // If you want to start measuring performance in your app, pass a function

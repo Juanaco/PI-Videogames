@@ -2,15 +2,15 @@
 // RUTA A ENDPOINT "VIDEOGAMES"
 const { Router } = require("express");
 const {
-    getVideogamesHandler, 
-    getVideogameByNameHandler, 
+    getVideogamesHandler,  
     getVideogameIdHandler,
     postVideogamesHandler,
+    deleteVideogames,
 } = require ("../handlers/videogamesHandlers");
 
 const videogamesRouter = Router();
 
-// un middleware validador 
+//  middleware validador 
 const validate = (req, res, next) =>{
     const {name, description, platforms, image, releaseDate, rating} = req.body;
     if(!name) return res.status(400).json({error: "Missing Name"})
@@ -25,11 +25,13 @@ const validate = (req, res, next) =>{
 
 videogamesRouter.get("/", getVideogamesHandler);
 
-videogamesRouter.get('/name?="..."', getVideogameByNameHandler);
+// videogamesRouter.get('/name?="..."', getVideogameByNameHandler);
 
 videogamesRouter.get('/:id', getVideogameIdHandler);
 
 videogamesRouter.post('/',validate, postVideogamesHandler);
+
+videogamesRouter.delete('/delete/:name', deleteVideogames)
 
 
 

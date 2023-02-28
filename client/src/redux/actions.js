@@ -1,15 +1,16 @@
 import axios from "axios";
 
-// guardar los strings en variables para typos
+
 export const GET_GAMES = "GET_GAMES";
 export const GET_GAME = "GET_GAME";
 
 export const getGames = () => {
   return async function (dispatch) {
     const apiData = await axios.get(
-      "https://api.rawg.io/api/games?key=58f5f3ddba1b442f8d24d98fcfeb532f"
+      "http://" + window.location.hostname + ":3001/videogames"
     );
-    const games = apiData.data.results;
+    let games = apiData.data;
+
     dispatch({ type: GET_GAMES, payload: games });
   };
 };
@@ -17,7 +18,7 @@ export const getGames = () => {
 export const getGame = (id) =>{
     return async function (dispatch) {
         const apiData = await axios.get(
-            `https://api.rawg.io/api/games/${id}?key=58f5f3ddba1b442f8d24d98fcfeb532f`
+            `http://localhost:3001/videogames/${id}`
         );
         const game = apiData.data;
         dispatch({type: GET_GAME, payload: game});

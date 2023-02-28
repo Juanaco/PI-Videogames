@@ -33,12 +33,7 @@ module.exports = (sequelize) => {
     rating:{
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    // *************HAY QUE CREAR UN ATRIBUTO "CREATED", BOOLEANO PARA SABER SI EL JUEGO SE CREA O SE TRAE DE LA API
-    created:{
-      type: DataTypes.BOOLEAN,
-      defaultValue:true,
-    },
+    }
   },
   {timestamps: false});
 };

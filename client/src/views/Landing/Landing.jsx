@@ -3,13 +3,14 @@ import style from "./Landing.module.css"
 
 const Landing =() =>{
     return(
-        <>
-            <h1>What game shall we play today?</h1>
-            <div className={style.mainContainer}>
-                <Link to="/home">GO HOME</Link>
-            </div>
+        <div className={style.container}>
+            
+                <Link to="/home">
+                <button className={style.button}>START</button>
+                </Link>
+        </div>
 
-        </>
+        
     )
 };
 
